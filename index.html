@@ -11,17 +11,19 @@
         <script type="riot/tag">
             <todo>
                 <div class="row">
-                     <div class="col-12">
-                        <h3>{opts.title}</h3>
-                    </div>
+                     <div class="col-12"><h3>{opts.title}</h3></div>
+                </div>
+                <div class="row">
+                     <div class="col-12"><hr/></div>
                 </div>
                 <div class="row" each={items}>
-                    <div class="col-6">
+                    <div class="col-1">
                         <label class={ completed: done }>
-                            <input type="checkbox" checked={done} onclick={toggle}>{title}
+                            <input type="checkbox" checked={done} onclick={toggle}>
                         </label>
                     </div>
-                    <div class="col-6" align="right">
+                    <div class="col-10">{title}</div>
+                    <div class="col-1" align="right">
                         <button onclick="{remove}">X</button>
                     </div>
                 </div>
@@ -125,13 +127,11 @@
                     jexia.get();
                 });
             }
-
             var appId = 'JEXIA_APP_ID',                             // TODO: replace with your Jexia AppId
                 dataApp = 'http://' + appId + '.app.jexia.com/',
                 dataSet = dataApp + 'todo/',
                 todo,
                 jexia;
-
             $(document).ready(function() {
                 $.ajax({
                     url: dataApp,
@@ -148,5 +148,3 @@
         </script>
     </body>
 </html>
-
-
