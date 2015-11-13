@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Jexia - riot - todo</title>
+        <link rel="stylesheet" href="todo.css">
+        <link rel="stylesheet" href="minimal.css">
+    </head>
+    <body>
+        <todo></todo>
+        <jexia></jexia>
+        <script type="riot/tag">
+            <todo>
+                <div class="row">
+                     <div class="col-12">
+                        <h3>{opts.title}</h3>
+                    </div>
+                </div>
+                <div class="row" each={items}>
+                    <div class="col-6">
+                        <label class={ completed: done }>
+                            <input type="checkbox" checked={done} onclick={toggle}>{title}
+                        </label>
+                    </div>
+                    <div class="col-6" align="right">
+                        <button onclick="{remove}">X</button>
+                    </div>
+                </div>
+                <form onsubmit={create}>
+                    <div class="row">
+                        <div class="col-6">
+                            <input name="input" onkeyup={edit}>
+                        </div>
+                        <div class="col-6" align="right">
+                            <button disabled={!text}>+</button>
+                        </div>
+                    </div>
+                </form>
+                this.items = opts.items;
+                remove(e) {
+                    this.trigger('remove', e.item);
+                }
+                edit(e) {
+                    this.text = e.target.value;
+                }
+                create(e) {
+                    if (this.text) {
+                        this.trigger('create', {title: this.text});
+                        this.text = this.input.value = '';
+                    }
+                    return false;
+                }
+                toggle(e) {
+                    var item = e.item;
+                    item.done = !item.done;
+                    this.trigger('modify', item);
+                    return true;
+                }
+            </todo>
+        </script>
+        <script type="riot/tag">
+            <jexia>
+                this.url = opts.url;
+                this.token = opts.token;
+                get() {
+                    this.ajax(this.url, 'get', 'got');
+                }
+                create(data) {
+                    this.ajax(this.url, 'post', 'created', data);
+                }
+                modify(id, data) {
+                    this.ajax(this.url + id, 'put', 'modified', data);
+                }
+                remove(id) {
+                    this.ajax(this.url + id, 'delete', 'removed');
+                }
+                ajax(url, method, trigger, data) {
+                    var self = this;
+                    $.ajax({
+                        url: url,
+                        type: method,
+                        data: data,
+                        headers: {
+                            'Authorization': 'Bearer ' + this.token
+                        }
+                    }).
+                    done(function(data) {
+                        self.trigger(trigger, data);
+                    });
+                }
+            </jexia>
+        </script>    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/2.3.1/riot+compiler.min.js"></script>
+        <script type="text/javascript">    
+            function boot(url, token) {
+                riot.compile(function() {
+                    todo = riot.mount('todo', {
+                    title: 'What do you jexia today?',
+                        items: []
+                    })[0];
+                    todo.on('create', function(data) {
+                        jexia.create(data);
+                    });
+                    todo.on('modify', function(data) {
+                        jexia.modify(data.id, data);
+                    });
+                    todo.on('remove', function(data) {
+                        jexia.remove(data.id);
+                    });
+                    
+                    jexia = riot.mount('jexia', {url: url, token: token})[0];
+                    jexia.on('got', function(data) {
+                        todo.items = data;
+                        todo.update();
+                    });
+                    jexia.on('created', function(data) {
+                        jexia.get();
+                    });
+                    jexia.on('removed', function(data) {
+                        jexia.get();
+                    });
+                    jexia.on('modified', function(data) {
+                        jexia.get();
+                    });
+                    jexia.get();
+                });
+            }
+
+            var appId = 'JEXIA_APP_ID',                             // TODO: replace with your Jexia AppId
+                dataApp = 'http://' + appId '.app.jexia.com/',
+                dataSet = dataApp + 'todo/',
+                todo,
+                jexia;
+
+            $(document).ready(function() {
+                $.ajax({
+                    url: dataApp,
+                    type: 'post',
+                    data: {
+                        key: 'JEXIA_KEY',                           // TODO: replace with the Jexia key
+                        secret: 'JEXIA_SECRET'                      // TODO: replace with the secret to access the key
+                    }
+                }).
+                done(function(data) {
+                    boot(dataSet, data.token);
+                });
+            });
+        </script>
+    </body>
+</html>
+
+
