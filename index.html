@@ -86,14 +86,19 @@
                         }
                     }).
                     done(function(data) {
+                        $.each(data, function(index, item) {
+                            if(item && item.done) {
+                                item.done = (item.done === "true");
+                            }
+                        });
                         self.trigger(trigger, data);
                     });
                 }
             </jexia>
-        </script>    
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/2.3.1/riot+compiler.min.js"></script>
-        <script type="text/javascript">    
+        <script type="text/javascript">
             function boot(url, token) {
                 riot.compile(function() {
                     todo = riot.mount('todo', {
@@ -109,7 +114,7 @@
                     todo.on('remove', function(data) {
                         jexia.remove(data.id);
                     });
-                    
+
                     jexia = riot.mount('jexia', {url: url, token: token})[0];
                     jexia.on('got', function(data) {
                         todo.items = data;
