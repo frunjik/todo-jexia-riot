@@ -127,7 +127,7 @@ Now we create the basic riot todo component. This component takes care of displa
 ```
 
 ## Step 4
-In order to use the RESTful api's created on our DataSet we create a new riot component. So we create a component named Jexia to access our DataSet. We do that in the following simple way:
+In order to use the RESTful api's created on our DataSet we create a new riot component named 'jexia' to access our DataSet:
 
 ```javascript
 <script type="riot/tag">
@@ -173,8 +173,8 @@ Our riot Todo component fires events for when creating, deleting or updating an 
 To acces our DataSet we need to include an access_token in the header of each HTTPS request we send to Jexia. Without this access token we would an error message stating that we are not allowed to access the data. The next step will show you how we get this access token.
 
 ## Step 5
-
-To access our DataSet we need an access token. We get this when the application starts (when the page is loaded). We attach to jQuery's ready event to get things started:
+We want to acquire the needed access token before we start our application. 
+To accomplish this we attach to jQuery's ready event to get things started:
 
 ```javascript
 var appId = 'JEXIA-APP-ID',         // TODO: replace with your Jexia AppId
@@ -197,7 +197,8 @@ $(document).ready(function() {
 });
 ```
 
-Replace the `JEXIA-KEY` and `JEXIA-SECRET` tags in the code with the data you received in Step 1.  You can find the key and secret on the Api Key Management page.  By default the secret is hidden, press the show link to see it. 
+Replace the `JEXIA-APP-ID` and `JEXIA-KEY` and `JEXIA-SECRET` tags in the code with the data you received in Step 1.  
+You can find the key and secret on the Api Key Management page.  By default the secret is hidden, press the show link to see it. 
 The access token received by posting the key and secret, has a limited lifespan. 
 The refreshing of the token is not part of this tutorial. 
 If the token is expired a new token is acquired by refreshing the page.
