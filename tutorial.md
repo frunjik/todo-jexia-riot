@@ -1,7 +1,7 @@
 # Jexia-Riot-Todo Tutorial
 =======
 
-This tutorial shows how easy it is to create a web based Todo application using the Jexia and the [riot.js](http://riotjs.com/) and [jQuery](http://jquery.com/) libraries.
+This tutorial shows how easy it is to create a web based Todo application using Jexia and the [riot.js](http://riotjs.com/) and [jQuery](http://jquery.com/) libraries.
 
 Jexia decreases your application development for creating great web applications or mobile apps. In this tutorial Jexia is used as backend service to store and retrieve todo items. All interaction with Jexia is done using RESTful API's that are generated for you automatically.
 
