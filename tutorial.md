@@ -65,6 +65,7 @@ Create a file index.html containing:
 </html>
 ```
 At the top of the body we include the two components that we will create in the next steps.
+
 At the end of the body we include the links to the JavaScript files we need. In our case jQuery and riot.
 
 ## Step 3
