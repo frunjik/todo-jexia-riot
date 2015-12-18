@@ -15,8 +15,8 @@ It is assumed that you have a basic knowledge of JavaScript and HTML. To complet
 Since only Client side javascript is needed for this tutorial no local setup is needed! All that is needed is access to Jexia in order to create the backend of your Todo application.
 
 The tutorial shows two JavaScript objects:
-1. The Todo component manages the list of Todo items
-2. The Jexia component manages the communication with Jexia
+1. The Todo component that manages the list of Todo items
+2. The Jexia component that manages the communication with Jexia
 
 The riot Todo component fires events for when creating, deleting or updating an item.
 
@@ -37,7 +37,7 @@ Create a DataApp with the name: ToDoApp
 
 Create the DataSet with name: todo
 
-Each DataApp has a root key. Since working directly with the root key is not recommended we will create a new especially for our tutorial DataApp and DataSet.
+Each DataApp has a root key. Since working directly with the root key is not recommended we will create a new key especially for our tutorial DataApp and DataSet.
 To create a key:
 
 * Choose 'Manage your Keys' from the menu
